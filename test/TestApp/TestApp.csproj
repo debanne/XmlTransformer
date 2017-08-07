@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <StartupObject>TestApp.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TransformXmlTasks" Version="0.1.0-*" PrivateAssets="All" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0-preview2-25405-01" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="App.Template.config">
+    </None>
+    <None Include="App.Debug.config">
+      <DependentUpon>App.Template.config</DependentUpon>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>App.Template.config</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <Target Name="Thank" BeforeTargets="BeforeBuild">
+    <TransformXmlTask Source="App.Template.config" Destination="App.config" Transform="App.$(Configuration).config" />
+  </Target>
+
+</Project>
